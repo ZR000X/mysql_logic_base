@@ -1,154 +1,154 @@
-# OneDBI Template README
+# MySQL Logic Base Template
+
+A MySQL-based framework for building robust, flexible, and secure database interfaces with built-in authorization, logging, and testing capabilities.
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Database Structure](#database-structure)
-3. [Procedures](#procedures)
-4. [Functions](#functions)
-5. [Tables](#tables)
-6. [Usage](#usage)
-7. [Testing](#testing)
-8. [Contributing](#contributing)
-9. [License](#license)
+3. [Core Components](#core-components)
+   - [Procedures](#procedures)
+   - [Functions](#functions)
+   - [Tables](#tables)
+4. [Usage Guide](#usage)
+5. [Testing](#testing)
+6. [Contributing](#contributing)
+7. [License](#license)
 
 ## Introduction
-The OneDBI Template is a MySQL-based framework designed to facilitate the development of a robust, flexible, and secure database interface. It includes predefined procedures, functions, and tables that manage database operations, authorization, and testing.
+
+The MySQL Logic Base Template provides a structured foundation for database operations, featuring:
+
+- Authorization management
+- Request/response handling
+- Comprehensive logging
+- Built-in testing framework
+- Seed data management
 
 ## Database Structure
-The database is structured to include various procedures, functions, and tables to handle different aspects of database operations. The primary components are:
-- **Procedures**: For handling specific tasks such as authorization, logging, and executing queries.
-- **Functions**: For utility operations like cleaning strings, comparing JSON paths, and fetching responses.
-- **Tables**: For storing calls, entries, accounts, functionality details, and test data.
 
-## Procedures
+The framework consists of three main component types:
 
-### dbi_authorise
-This procedure handles authorization checks for specific functions. It ensures that the user calling a function has the necessary permissions to perform the action.
+- **📝 Procedures**: Handle authorization, logging, and query execution
+- **⚙️ Functions**: Provide utility operations (string cleaning, JSON handling, etc.)
+- **📊 Tables**: Store operational and test data
 
-### dbi_call
-This procedure logs a call to the database interface and handles the execution of the requested function. It includes error handling and logging of the results.
+## Core Components
 
-### dbi_fn_get_entry
-Fetches details of a specific entry based on the provided arguments.
+### Procedures
 
-### dbi_fn_update_entry
-Updates the details of a specific entry based on the provided arguments.
+#### Database Interface (DBI)
 
-### dbi_response_initiate
-Initializes the response JSON for a call.
+- `dbi_authorise`: Handles permission checks
+- `dbi_call`: Main entry point for function execution
+- `dbi_fn_get_entry`: Retrieves entry details
+- `dbi_fn_update_entry`: Updates entry information
 
-### dbi_response_set_body_field
-Sets a specific field in the response JSON body.
+#### Response Handling
 
-### dbi_response_set_err_msg
-Sets the error message in the response JSON.
+- `dbi_response_initiate`: Creates initial response structure
+- `dbi_response_set_body_field`: Updates response body
+- `dbi_response_set_err_msg`: Sets error messages
+- `dbi_response_set_status`: Updates response status
 
-### dbi_response_set_status
-Sets the status code in the response JSON.
+#### Testing & Utilities
 
-### dbut_run
-Runs all unit tests and logs the results.
+- `dbut_run`: Executes test suite
+- `dbut_run_tests`: Runs and reports test results
+- `dbut_seed_database`: Initializes test data
+- `dbut_test_functionality`: Tests specific functions
+- `dbut_truncate_before_template`: Cleans test environment
 
-### dbut_run_tests
-Runs the defined unit tests and returns the results of the tests.
+#### Module Operations
 
-### dbut_seed_database
-Seeds the database with initial data from predefined seed tables.
+- `mod_execute_queries`: Runs multiple queries
+- `mod_execute_query`: Executes single query
+- `mod_get_seed_tables`: Manages seed data tables
 
-### dbut_test_functionality
-Tests all functionalities and logs the results in the unit tests table.
+### Functions
 
-### dbut_truncate_before_template
-Truncates the necessary tables before running the template.
+#### String & JSON Operations
 
-### framework_refresh
-Refreshes the framework by dropping seed tables and truncating functionality tables.
+- `fn_clean_string`: Standardizes string format
+- `fn_compare_json_paths`: Compares JSON structures
+- `fn_force_json_array`: Ensures JSON array format
 
-### mod_execute_queries
-Executes multiple queries from a temporary table.
+#### DBI Utilities
 
-### mod_execute_query
-Executes a single query.
+- `fn_dbi_get_functionality_proc_name`: Gets procedure names
+- `fn_dbi_get_functionality_sql`: Generates SQL
+- `fn_dbi_get_response`: Retrieves response data
+- `fn_dbi_response_get_err_msg`: Gets error messages
+- `fn_dbi_response_get_status`: Gets response status
 
-### mod_get_seed_tables
-Fetches all seed tables based on a predefined prefix.
+#### Testing & Time
 
-## Functions
+- `fn_dbut_compare_responses`: Validates test responses
+- `fn_dbut_get_seed_prefix`: Manages seed data prefixes
+- `fn_ms_since_then`: Calculates time differences
 
-### fn_clean_string
-Cleans a given string by trimming spaces, replacing multiple spaces with a single space, replacing spaces with underscores, and converting the string to lowercase.
+### Tables
 
-### fn_compare_json_paths
-Compares JSON paths between two JSON objects and returns the failed fields.
+#### Core Tables
 
-### fn_dbi_get_functionality_proc_name
-Returns the procedure name for a given function name.
+- `dbi_calls`: Request/response logs
+- `dbi_functionality`: Available functions
+- `dbi_statuses`: HTTP-style status codes
 
-### fn_dbi_get_functionality_sql
-Returns the SQL for a given function name and parameters.
+#### Testing Tables
 
-### fn_dbi_get_response
-Fetches the current response JSON.
+- `dbut_tests`: Test execution records
+- `dbut_unit_tests`: Test results
+- `dbut_unit_test_cases`: Test definitions
 
-### fn_dbi_response_get_err_msg
-Fetches the error message from the response JSON.
+#### Seed Data
 
-### fn_dbi_response_get_status
-Fetches the status from the response JSON.
+- `_seed_trans_accounts`: Account test data
+- `_seed_trans_entries`: Entry test data
 
-### fn_dbut_compare_responses
-Compares the expected and actual responses and returns whether they match.
+## Usage Guide
 
-### fn_dbut_get_seed_prefix
-Returns the prefix for the seed tables.
+1. **Initial Setup**
 
-### fn_force_json_array
-Ensures a JSON object is treated as an array.
+   ```sql
+   -- Import the template
+   SOURCE template.sql
+   ```
 
-### fn_ms_since_then
-Calculates the milliseconds elapsed since a given datetime.
+2. **Making Calls**
 
-## Tables
+   ```sql
+   -- Example: Get an entry
+   CALL dbi_call('get_entry', 1, '{"userId": 1, "entryId": 1}', @call_id);
+   ```
 
-### dbi_calls
-Logs all calls to the database interface.
-
-### dbi_functionality
-Stores details about the available functionalities.
-
-### dbi_statuses
-Stores status codes and their descriptions.
-
-### dbut_tests
-Stores test runs.
-
-### dbut_unit_tests
-Stores unit test results.
-
-### dbut_unit_test_cases
-Stores unit test cases.
-
-### _seed_trans_accounts
-Seed data for transaction accounts.
-
-### _seed_trans_entries
-Seed data for transaction entries.
-
-## Usage
-1. **Setup the Database**: Import the SQL file to your MySQL database server.
-2. **Run Procedures**: Use the procedures to interact with the database.
-3. **Check Responses**: Responses from calls can be checked by querying the `dbi_calls` table or the response functions.
+3. **Checking Results**
+   ```sql
+   -- View call response
+   SELECT * FROM dbi_calls WHERE call_id = @call_id;
+   ```
 
 ## Testing
-1. **Run Tests**: Execute `CALL dbut_run_tests();` to run all unit tests.
-2. **Check Results**: Review the test results in the `dbut_tests` and `dbut_unit_tests` tables.
+
+1. **Run All Tests**
+
+   ```sql
+   CALL dbut_run_tests();
+   ```
+
+2. **View Results**
+   ```sql
+   SELECT * FROM dbut_tests;
+   SELECT * FROM dbut_unit_tests;
+   ```
 
 ## Contributing
-1. **Fork the Repository**: Create a fork of the repository to make your changes.
-2. **Create a Branch**: Create a new branch for your changes.
-3. **Make Changes**: Make your changes and commit them with clear messages.
-4. **Submit a Pull Request**: Submit a pull request to the main repository.
 
----
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-This README file provides a comprehensive guide to understanding the OneDBI Template, including its structure, components, and usage. For more detailed explanations of each component, refer to the comments within the SQL file.
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

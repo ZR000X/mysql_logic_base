@@ -16,8 +16,8 @@
 
 
 -- Dumping database structure for onedbi_template
-CREATE DATABASE IF NOT EXISTS `onedbi_template` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `onedbi_template`;
+CREATE DATABASE IF NOT EXISTS `mysql_logic_base_template` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `mysql_logic_base_template`;
 
 -- Dumping structure for procedure onedbi_template.dbi_authorise
 DELIMITER //
